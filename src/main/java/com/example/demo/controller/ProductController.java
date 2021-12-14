@@ -19,20 +19,12 @@ public class ProductController {
     ProductRepository productRepository;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName)
+    public ResponseEntity<List<Product>> getAllProducts()
     {
         try
         {
             List<Product> products = new ArrayList<>();
-            if (productName == null)
-            {
-                productRepository.findAll().forEach(products::add);
-            }
-            else
-            {
-                productRepository.findByName(productName).forEach(products::add);
-            }
-
+            productRepository.findAll().forEach(products::add);
             if (products.isEmpty())
             {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
