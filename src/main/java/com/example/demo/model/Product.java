@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -8,7 +10,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long productId;
 
     @Column(name = "name")
     private String name;
@@ -16,19 +18,18 @@ public class Product {
     @Column(name = "price")
     private double price;
 
+    @ManyToMany
+    @JoinTable(name = "ordered_products",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<Order> orderList = new ArrayList<>();
 
     public Product() {
-
     }
 
     public Product(String name, double price) {
-        this.id = id;
         this.name = name;
         this.price = price;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -39,8 +40,8 @@ public class Product {
         this.price = price;
     }
 
-    public long getId() {
-        return id;
+    public long getProductId() {
+        return productId;
     }
 
     public String getName() {

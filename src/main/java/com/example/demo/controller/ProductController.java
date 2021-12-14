@@ -15,23 +15,29 @@ import java.util.concurrent.atomic.AtomicLong;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class ProductController {
-
     @Autowired
     ProductRepository productRepository;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String name)
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName)
     {
-        try {
-            List<Product> products = new ArrayList<Product>();
+        try
+        {
+            List<Product> products = new ArrayList<>();
 
-            if (name == null)
+            if (productName == null)
+            {
                 productRepository.findAll().forEach(products::add);
+            }
             else
-                productRepository.findByName(name).forEach(products::add);
+            {
+                productRepository.findByProductName(productName).forEach(products::add);
+            }
 
             if (products.isEmpty())
+            {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
 
             return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (Exception e)
@@ -43,7 +49,8 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product product)
     {
-        try {
+        try
+        {
             Product newProduct = productRepository.save(new Product(product.getName(), product.getPrice()));
             return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
         } catch (Exception e)
@@ -53,9 +60,9 @@ public class ProductController {
     }
 
     @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @RequestBody Product product)
+    public ResponseEntity<Product> updateProduct(@PathVariable("productId") long productId, @RequestBody Product product)
     {
-        Optional<Product> productData = productRepository.findById(id);
+        Optional<Product> productData = productRepository.findByProductId(productId);
 
         if (productData.isPresent())
         {
