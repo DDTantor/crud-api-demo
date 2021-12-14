@@ -24,14 +24,13 @@ public class ProductController {
         try
         {
             List<Product> products = new ArrayList<>();
-
             if (productName == null)
             {
                 productRepository.findAll().forEach(products::add);
             }
             else
             {
-                productRepository.findByProductName(productName).forEach(products::add);
+                productRepository.findByName(productName).forEach(products::add);
             }
 
             if (products.isEmpty())
