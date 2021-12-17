@@ -19,51 +19,41 @@ public class ProductController {
     ProductRepository productRepository;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts()
-    {
-        try
-        {
+    public ResponseEntity<List<Product>> getAllProducts() {
+        try {
             List<Product> products = new ArrayList<>();
             productRepository.findAll().forEach(products::add);
-            if (products.isEmpty())
-            {
+            if (products.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
             return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product)
-    {
-        try
-        {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        try {
             Product newProduct = productRepository.save(new Product(product.getName(), product.getPrice()));
             return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@PathVariable("productId") long productId, @RequestBody Product product)
-    {
-        Optional<Product> productData = productRepository.findByProductId(productId);
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        Optional<Product> productData = productRepository.findByProductId(product.getProductId());
 
-        if (productData.isPresent())
-        {
+        if (productData.isPresent()) {
             Product newProduct = productData.get();
             newProduct.setName(product.getName());
             newProduct.setPrice(product.getPrice());
             return new ResponseEntity<>(productRepository.save(newProduct), HttpStatus.OK);
         }
-        else
-        {
+        else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

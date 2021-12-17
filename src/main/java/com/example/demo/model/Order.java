@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,22 +15,28 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
 
-    @Column(name = "email")
+    @Column(name = "userEmail")
     private String userEmail;
 
-    @Column(name = "date")
+    @JsonFormat(pattern = "MM/dd/yyyy")
+    @Column(name = "orderDate")
     private Date orderDate;
 
-    @ManyToMany(mappedBy = "orderList")
-    private List<Product> productList = new ArrayList<>();
+    @Column(name = "orderPrice")
+    private double orderPrice;
+
+    @OneToMany(targetEntity = OrderProduct.class)
+    private List<OrderProduct> productList = new ArrayList<>();
+
 
     public Order() {
     }
 
-    public Order(String userEmail, Date orderDate, List<Product> productList) {
+    public Order(String userEmail, Date orderDate, List<OrderProduct> productList, double orderPrice) {
         this.userEmail = userEmail;
         this.orderDate = orderDate;
         this.productList = productList;
+        this.orderPrice = orderPrice;
     }
 
     public String getUserEmail() {
@@ -38,7 +47,11 @@ public class Order {
         return orderDate;
     }
 
-    public List<Product> getProductList() {
+    public List<OrderProduct> getProductList() {
         return productList;
     }
+    public double getOrderPrice() {
+        return orderPrice;
+    }
+
 }

@@ -18,11 +18,8 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @ManyToMany
-    @JoinTable(name = "ordered_products",
-            joinColumns = @JoinColumn(name = "productId"),
-            inverseJoinColumns = @JoinColumn(name = "orderId"))
-    private List<Order> orderList = new ArrayList<>();
+    @OneToOne(mappedBy = "product")
+    private OrderProduct orderProduct;
 
     public Product() {
     }
