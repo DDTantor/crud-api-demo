@@ -19,7 +19,7 @@ public class Product {
     private double price;
 
     @OneToOne(mappedBy = "product")
-    private OrderProduct orderProduct;
+    private OrderItem orderProduct;
 
     public Product() {
     }

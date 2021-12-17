@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Order;
-import com.example.demo.model.OrderProduct;
+import com.example.demo.model.OrderItem;
 import com.example.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class OrderController {
     @Autowired
     OrderRepository orderRepository;
 
-    @GetMapping("/orders/all")
+    @GetMapping("/api/orders/all")
     public ResponseEntity<List<Order>> getAllOrders() {
         try {
             List<Order> orders = new ArrayList<>();
@@ -33,7 +33,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/api/orders")
     public ResponseEntity<List<Order>> getOrdersInRange(@RequestParam Date startDate, @RequestParam Date endDate) {
         try {
             List<Order> orders = new ArrayList<>();
@@ -48,10 +48,10 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/orders")
+    @PostMapping("/api/orders")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         try {
-            double totalPrice = order.getProductList().stream().mapToDouble(OrderProduct::getPrice).sum();
+            double totalPrice = order.getProductList().stream().mapToDouble(OrderItem::getPrice).sum();
             Order newOrder = orderRepository.save( new Order(order.getUserEmail(),
                     order.getOrderDate(), order.getProductList(), totalPrice));
             return new ResponseEntity<>(newOrder, HttpStatus.OK);

@@ -25,14 +25,14 @@ public class Order {
     @Column(name = "orderPrice")
     private double orderPrice;
 
-    @OneToMany(targetEntity = OrderProduct.class)
-    private List<OrderProduct> productList = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> productList = new ArrayList<>();
 
 
     public Order() {
     }
 
-    public Order(String userEmail, Date orderDate, List<OrderProduct> productList, double orderPrice) {
+    public Order(String userEmail, Date orderDate, List<OrderItem> productList, double orderPrice) {
         this.userEmail = userEmail;
         this.orderDate = orderDate;
         this.productList = productList;
@@ -47,7 +47,7 @@ public class Order {
         return orderDate;
     }
 
-    public List<OrderProduct> getProductList() {
+    public List<OrderItem> getProductList() {
         return productList;
     }
     public double getOrderPrice() {

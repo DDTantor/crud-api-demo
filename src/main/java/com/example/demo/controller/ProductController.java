@@ -18,7 +18,7 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public ResponseEntity<List<Product>> getAllProducts() {
         try {
             List<Product> products = new ArrayList<>();
@@ -33,7 +33,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/products")
+    @PostMapping("/api/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         try {
             Product newProduct = productRepository.save(new Product(product.getName(), product.getPrice()));
@@ -43,7 +43,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/products")
+    @PutMapping("/api/products")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         Optional<Product> productData = productRepository.findByProductId(product.getProductId());
 

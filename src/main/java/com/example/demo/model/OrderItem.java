@@ -3,11 +3,11 @@ package com.example.demo.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_product")
-public class OrderProduct {
+@Table(name = "order_items")
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long orderProductsId;
+    private long orderItemId;
 
     @Column(name = "name")
     private String name;
@@ -23,10 +23,10 @@ public class OrderProduct {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public OrderProduct() {
+    public OrderItem() {
     }
 
-    public OrderProduct(double price, Product product, Order order) {
+    public OrderItem(double price, Product product, Order order) {
         this.price = price;
         this.product = product;
         this.order = order;
