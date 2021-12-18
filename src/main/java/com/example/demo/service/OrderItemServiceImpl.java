@@ -2,11 +2,16 @@ package com.example.demo.service;
 
 import com.example.demo.model.OrderItem;
 import com.example.demo.repository.OrderItemRepository;
+import org.springframework.stereotype.Service;
 
-public class OrderItemImpl implements OrderItemService{
+import javax.transaction.Transactional;
+
+@Service
+@Transactional
+public class OrderItemServiceImpl implements OrderItemService{
     private OrderItemRepository orderItemRepository;
 
-    public OrderItemImpl(OrderItemRepository orderItemRepository) {
+    public OrderItemServiceImpl(OrderItemRepository orderItemRepository) {
         this.orderItemRepository = orderItemRepository;
     }
 

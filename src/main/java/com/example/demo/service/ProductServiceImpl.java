@@ -2,10 +2,14 @@ package com.example.demo.service;
 
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
 

@@ -2,10 +2,14 @@ package com.example.demo.service;
 
 import com.example.demo.model.Order;
 import com.example.demo.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
+@Service
+@Transactional
 public class OrderServiceImpl implements OrderService{
     private OrderRepository orderRepository;
 
