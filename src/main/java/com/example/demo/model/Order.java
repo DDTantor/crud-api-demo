@@ -30,6 +30,7 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public Order() {
+        orderDate = new Date();
     }
 
     public String getUserEmail() {
@@ -38,6 +39,10 @@ public class Order {
 
     public Date getOrderDate() {
         return orderDate;
+    }
+
+    public double getOrderPrice() {
+        return orderPrice;
     }
 
     public List<OrderItem> getOrderItems() {

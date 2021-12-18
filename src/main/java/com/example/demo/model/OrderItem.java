@@ -28,13 +28,19 @@ public class OrderItem {
         this.productPrice = product.getPrice();
     }
 
-    @Transient
     public double getTotalPrice() {
         return this.productPrice * this.quantity;
     }
 
-    @Transient
-    public Product getProduct() {
-        return this.pk.getProduct();
+    public String getProductName() {
+        return pk.getProduct().getName();
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
     }
 }
