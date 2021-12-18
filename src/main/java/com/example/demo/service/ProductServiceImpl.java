@@ -49,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Optional<Product> update(ProductDto productDto) {
+        System.out.println(productDto.getName());
         Optional<Product> productData = productRepository.findByName(productDto.getName());
         if (productData.isPresent()) {
             Product product = productData.get();

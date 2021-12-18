@@ -13,6 +13,6 @@ public interface ProductService {
     List<Product> getAllProducts();
     Optional<Product> getProductByName(String name);
     List<Product> getProductsByNameIn(Collection<String> names);
-    Optional<Product> create(ProductDto product);
+    Optional<Product> create(ProductDto productDto);
     Optional<Product> update(ProductDto productDto);
 }
