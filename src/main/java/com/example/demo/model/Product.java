@@ -9,7 +9,7 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
 
     @Column(name = "name")
@@ -17,9 +17,6 @@ public class Product {
 
     @Column(name = "price")
     private double price;
-
-    @OneToOne(mappedBy = "product")
-    private OrderItem orderProduct;
 
     public Product() {
     }

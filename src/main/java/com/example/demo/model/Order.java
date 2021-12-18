@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,31 +12,24 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
 
     @Column(name = "userEmail")
     private String userEmail;
 
     @JsonFormat(pattern = "MM/dd/yyyy")
-    @Column(name = "orderDate")
+    @Column(name = "create_date")
     private Date orderDate;
 
-    @Column(name = "orderPrice")
+    @Column(name = "price")
     private double orderPrice;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> productList = new ArrayList<>();
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Order() {
-    }
-
-    public Order(String userEmail, Date orderDate, List<OrderItem> productList, double orderPrice) {
-        this.userEmail = userEmail;
-        this.orderDate = orderDate;
-        this.productList = productList;
-        this.orderPrice = orderPrice;
     }
 
     public String getUserEmail() {
@@ -47,11 +40,16 @@ public class Order {
         return orderDate;
     }
 
-    public List<OrderItem> getProductList() {
-        return productList;
-    }
-    public double getOrderPrice() {
-        return orderPrice;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public void setOrderItemsAndOrderPrice(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+        this.orderPrice = orderItems.stream().mapToDouble(OrderItem::getTotalPrice).sum();
+    }
 }

@@ -1,38 +1,40 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long orderItemId;
+    @EmbeddedId
+    @JsonIgnore
+    private OrderItemPK pk;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "quantity")
+    private int quantity;
 
-    @Column(name = "price")
-    private double price;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", referencedColumnName = "productId")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column(name = "product_price")
+    private double productPrice;
 
     public OrderItem() {
     }
 
-    public OrderItem(double price, Product product, Order order) {
-        this.price = price;
-        this.product = product;
-        this.order = order;
+    public OrderItem(Order order, Product product, int quantity) {
+        pk = new OrderItemPK();
+        pk.setOrder(order);
+        pk.setProduct(product);
+        this.quantity = quantity;
+        this.productPrice = product.getPrice();
     }
 
-    public double getPrice() {
-        return price;
+    @Transient
+    public double getTotalPrice() {
+        return this.productPrice * this.quantity;
+    }
+
+    @Transient
+    public Product getProduct() {
+        return this.pk.getProduct();
     }
 }
